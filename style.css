@@ -1,0 +1,1116 @@
+/* ==========================================================
+   WILLIAM SARPONG — PORTFOLIO STYLESHEET
+   Theme: light, modern, blue & white
+
+   HOW TO CHANGE THE THEME:
+   Every color is stored once in the :root block below as a
+   "CSS variable" (the names that start with --).
+   Change a value there and it updates everywhere it's used.
+   ========================================================== */
+
+:root {
+  /* ----- Brand colors ----- */
+  --primary: #1d4ed8;        /* main blue: buttons, links, accents */
+  --primary-dark: #1e3a8a;   /* darker blue: hover states */
+  --primary-soft: #e8efff;   /* very light blue: badges, backgrounds */
+  --navy: #0b1f44;           /* deep navy: headings and footer */
+
+  /* ----- Neutral colors ----- */
+  --bg: #ffffff;             /* page background */
+  --bg-alt: #f4f7fc;         /* alternating section background */
+  --text: #1e293b;           /* main body text */
+  --text-muted: #526075;     /* secondary text (dates, notes) */
+  --border: #dbe3ef;         /* card and input borders */
+  --white: #ffffff;
+
+  /* ----- Typography ----- */
+  --font-heading: "Sora", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+
+  /* ----- Shapes, shadows & motion (kept consistent everywhere) ----- */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 3px rgba(11, 31, 68, 0.08);
+  --shadow-md: 0 10px 30px rgba(11, 31, 68, 0.10);
+  --transition: 0.25s ease;
+
+  /* ----- Layout ----- */
+  --container: 1140px;
+  --header-height: 72px;
+}
+
+/* ==========================================================
+   1. RESET & BASE STYLES
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* padding is included in an element's width */
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;                         /* smooth scrolling for menu links */
+  scroll-padding-top: var(--header-height);        /* stops the sticky menu covering headings */
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;   /* images never overflow their container */
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  color: var(--navy);
+  line-height: 1.2;
+}
+
+/* Visible keyboard focus for accessibility (shows when using Tab key) */
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Hidden "skip to content" link that appears when tabbed to */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 200;
+  padding: 0.6rem 1rem;
+  background: var(--navy);
+  color: var(--white);
+  border-radius: var(--radius-sm);
+}
+
+.skip-link:focus {
+  top: 1rem;
+  color: var(--white);
+}
+
+/* Centers content and adds side padding */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ==========================================================
+   2. SHARED SECTION STYLES
+   ========================================================== */
+
+.section {
+  padding: 6rem 0;
+}
+
+.section-alt {
+  background-color: var(--bg-alt);
+}
+
+/* Small uppercase label above each heading */
+.eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem); /* grows with screen size, within limits */
+  margin-bottom: 2.5rem;
+  max-width: 22ch;
+}
+
+/* ==========================================================
+   3. BUTTONS
+   ========================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition),
+              border-color var(--transition), transform var(--transition),
+              box-shadow var(--transition);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
+  box-shadow: 0 8px 20px rgba(29, 78, 216, 0.25);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  color: var(--white);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+/* ==========================================================
+   A. NAVIGATION BAR
+   ========================================================== */
+
+#site-header {
+  position: sticky;   /* stays at the top while scrolling */
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+}
+
+.logo span {
+  color: var(--primary);
+  margin-left: 0.15em;
+}
+
+.logo:hover {
+  color: var(--navy);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-links a {
+  position: relative;
+  font-weight: 500;
+  color: var(--text);
+  padding: 0.25rem 0;
+}
+
+/* Animated underline on hover */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width var(--transition);
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* "Contact" link styled as a small button */
+.nav-links .nav-cta {
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.nav-links .nav-cta::after {
+  display: none;
+}
+
+.nav-links .nav-cta:hover {
+  background-color: var(--primary-dark);
+  color: var(--white);
+}
+
+/* --- Mobile menu toggle (hidden on desktop) --- */
+.nav-toggle {
+  /* The checkbox is visually hidden but still works */
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav-toggle-label {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+/* The three-line "hamburger" icon is drawn with one span + two pseudo-elements */
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--navy);
+  border-radius: 2px;
+  position: relative;
+  transition: transform var(--transition), background-color var(--transition);
+}
+
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.nav-toggle-label span::before { top: -7px; }
+.nav-toggle-label span::after  { top: 7px; }
+
+/* Show a focus ring on the hamburger when the hidden checkbox is focused */
+.nav-toggle:focus-visible + .nav-toggle-label {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   B. HERO SECTION
+   ========================================================== */
+
+.hero {
+  position: relative;
+  padding: 5rem 0 6rem;
+  overflow: hidden;
+  /* soft blue glow + faint grid pattern for depth */
+  background:
+    radial-gradient(circle at 85% 20%, rgba(29, 78, 216, 0.12), transparent 45%),
+    linear-gradient(var(--bg), var(--bg-alt));
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(29, 78, 216, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 78, 216, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: center;
+  gap: 4rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.highlight {
+  color: var(--primary);
+}
+
+.hero-lead {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 54ch;
+  margin-bottom: 2.25rem;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.25rem;
+}
+
+/* Profile photo with a layered blue frame */
+.hero-photo {
+  position: relative;
+  justify-self: center;
+  width: 100%;
+  max-width: 380px;
+  animation: fade-up 0.8s ease both 0.15s;
+}
+
+.hero-photo::before {
+  content: "";
+  position: absolute;
+  inset: -14px -14px 14px 14px;     /* offset blue block behind the photo */
+  background-color: var(--primary);
+  border-radius: 28px;
+  transform: rotate(3deg);
+}
+
+.hero-photo img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 24px;
+  border: 6px solid var(--white);
+  box-shadow: var(--shadow-md);
+}
+
+.hero-text {
+  animation: fade-up 0.8s ease both;
+}
+
+/* Gentle fade-in animation for the hero */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================
+   G. SOCIAL MEDIA ICONS
+   ========================================================== */
+
+.social-links {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  color: var(--navy);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition), color var(--transition), transform var(--transition);
+}
+
+.social-links svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;   /* icon uses the link's text color */
+}
+
+.social-links a:hover {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+/* ==========================================================
+   C. ABOUT ME
+   ========================================================== */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 4rem;
+}
+
+.about-text p {
+  margin-bottom: 1.25rem;
+  color: var(--text);
+}
+
+.highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.highlights li {
+  padding: 1.25rem;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.highlights strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  color: var(--primary);
+  line-height: 1.1;
+  margin-bottom: 0.35rem;
+}
+
+.highlights span {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  display: block;
+}
+
+/* ==========================================================
+   D. SKILLS
+   ========================================================== */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* fits as many columns as space allows */
+  gap: 1.5rem;
+}
+
+.skill-card {
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.skill-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.25rem;
+}
+
+.skill-note {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+/* Skill "pills" */
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badges li {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--primary-dark);
+  background-color: var(--primary-soft);
+  border-radius: var(--radius-pill);
+}
+
+/* ==========================================================
+   E. EXPERIENCE & EDUCATION
+   ========================================================== */
+
+.exp-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.column-title {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.timeline + .column-title {
+  margin-top: 1rem;
+}
+
+/* Vertical line of the timeline */
+.timeline {
+  position: relative;
+  border-left: 2px solid var(--border);
+  margin-left: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 0 2rem 2rem;
+}
+
+/* Dot on the timeline */
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--white);
+  border: 3px solid var(--primary);
+}
+
+.date {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.timeline-item h4,
+.edu-card h4 {
+  font-size: 1.05rem;
+  margin-bottom: 0.15rem;
+}
+
+.org {
+  font-size: 0.925rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.timeline-item ul li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.timeline-item ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--primary);
+}
+
+/* Keeps the education column visible while scrolling the long timeline */
+.edu-column {
+  position: sticky;
+  top: calc(var(--header-height) + 1.5rem);
+}
+
+.edu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.edu-card {
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.edu-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.edu-card p:last-child {
+  font-size: 0.925rem;
+}
+
+/* ==========================================================
+   F. PROJECTS
+   ========================================================== */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;   /* keeps the image inside the rounded corners */
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Project image area — same size for every card so the grid stays tidy */
+.project-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Temporary placeholder until a real screenshot is added */
+.project-img.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.18), transparent 50%),
+    linear-gradient(135deg, var(--primary), var(--navy));
+}
+
+.project-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;              /* pushes the links to the bottom of every card */
+  padding: 1.5rem;
+}
+
+.project-body h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.project-body p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.tech-list li {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+}
+
+.project-links {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.project-links a {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.project-links a::after {
+  content: " →";
+  display: inline-block;
+  transition: transform var(--transition);
+}
+
+.project-links a:hover::after {
+  transform: translateX(3px);
+}
+
+/* ==========================================================
+   H. CONTACT
+   ========================================================== */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.contact-intro {
+  color: var(--text-muted);
+  margin-top: -1.25rem;
+  margin-bottom: 2rem;
+}
+
+.contact-list li {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.contact-list a,
+.contact-list span:not(.contact-label) {
+  font-weight: 600;
+  overflow-wrap: anywhere;   /* long emails/URLs wrap instead of overflowing */
+}
+
+.contact-form {
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 0.4rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text);
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #7a8699;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  background-color: var(--white);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.15);
+}
+
+.contact-form .btn {
+  width: 100%;
+}
+
+/* ==========================================================
+   I. FOOTER
+   ========================================================== */
+
+#site-footer {
+  background-color: var(--navy);
+  color: #c7d2e5;
+  padding: 4rem 0 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  padding-bottom: 3rem;
+}
+
+.logo-light {
+  color: var(--white);
+}
+
+.logo-light:hover {
+  color: var(--white);
+}
+
+.logo-light span {
+  color: #8fb0ff;
+}
+
+.footer-message {
+  margin-top: 1rem;
+  max-width: 40ch;
+}
+
+#site-footer h3 {
+  color: var(--white);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+#site-footer ul li {
+  margin-bottom: 0.5rem;
+}
+
+#site-footer a:not(.logo) {
+  color: #c7d2e5;
+}
+
+#site-footer a:not(.logo):hover {
+  color: var(--white);
+}
+
+#site-footer :focus-visible {
+  outline-color: #8fb0ff;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 0.875rem;
+  padding: 1.5rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ========================================================== */
+
+/* ---- Tablets and small laptops (up to 960px wide) ---- */
+@media (max-width: 960px) {
+  .section {
+    padding: 4.5rem 0;
+  }
+
+  .hero-grid,
+  .about-grid,
+  .exp-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .hero-photo {
+    order: -1;          /* photo above the text on smaller screens */
+    max-width: 280px;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
+  .hero-lead {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-buttons,
+  .social-links {
+    justify-content: center;
+  }
+
+  .edu-column {
+    position: static;
+  }
+
+  .about-grid .section-title {
+    margin-bottom: 0;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-grid > div:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---- Mobile menu (up to 820px wide) ---- */
+@media (max-width: 820px) {
+  .nav-toggle-label {
+    display: flex;
+  }
+
+  /* Menu is hidden by default on small screens */
+  .nav-links {
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 1.25rem 1.25rem;
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    display: none;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-links a::after {
+    display: none;
+  }
+
+  .nav-links .nav-cta {
+    margin-top: 1rem;
+    text-align: center;
+    border-bottom: none;
+  }
+
+  /* When the checkbox is ticked, show the menu */
+  .nav-toggle:checked ~ .nav-links {
+    display: flex;
+  }
+
+  /* Turn the hamburger into an "X" when open */
+  .nav-toggle:checked + .nav-toggle-label span {
+    background-color: transparent;
+  }
+
+  .nav-toggle:checked + .nav-toggle-label span::before {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .nav-toggle:checked + .nav-toggle-label span::after {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+/* ---- Phones (up to 600px wide) ---- */
+@media (max-width: 600px) {
+  .hero {
+    padding: 3rem 0 4rem;
+  }
+
+  .hero-photo {
+    max-width: 220px;
+  }
+
+  .hero-buttons .btn {
+    flex: 1 1 100%;    /* full-width buttons on phones */
+  }
+
+  .highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .contact-form {
+    padding: 1.5rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
